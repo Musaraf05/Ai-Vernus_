@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="icon" href="../static/assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("WitekVxLD6t5_PUzS"); // Your EmailJS public key
+        })();
+        function sendEmail(event) {
+            event.preventDefault(); // Prevent the default form submission
+            var teamName = document.getElementById('team-name').value;
+            var teamMember1 = document.getElementById('team-member1').value;
+            var teamMember2 = document.getElementById('team-member2').value;
+            var teamMember3 = document.getElementById('team-member3').value;
+
+            var templateParams = {
+                team_name: teamName,
+                team_member1: teamMember1,
+                team_member2: teamMember2,
+                team_member3: teamMember3
+            };
+            emailjs.send("service_pzho5rs", "template_nr2v0pr", templateParams) // Your service ID and template ID
+                .then(function (response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showSuccessMessage();
+                }, function (error) {
+                    console.log('FAILED...', error);
+                });
+        }
+
+        function showSuccessMessage() {
+                alert("Login successfully!");
+
+            // Create new button after the login button
+            var newButton = document.createElement("button");
+            newButton.textContent = "Go to Main Page";
+            newButton.id = "go-to-main";
+            newButton.onclick = function () {
+                window.location.href = "game.html"; // Redirect to main.html
+            };
+
+            // Append the new button to the form
+            var form = document.getElementById("login-form");
+            form.appendChild(newButton);
+        }
+
+        window.onload = function () {
+            // Add event listener to the form submit button
+            var form = document.getElementById("login-form");
+            form.addEventListener("submit", sendEmail);
+        };
+    </script>
+
+    <script>
+        function showSuccessMessage() {
+            // Show alert message
+            // alert("Login successfully!");
+
+            // Create new button after the login button
+            var newButton = document.createElement("button");
+            newButton.textContent = "Go to Main Page";
+            newButton.id = "go-to-main";
+            newButton.onclick = function() {
+                window.location.href = "/main"; // Redirect to main.html
+            };
+
+            // Append the new button to the form
+            var form = document.getElementById("login-form");
+            form.appendChild(newButton);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Call the function to show the success message and add the new button
+            showSuccessMessage();
+        }
+
+        window.onload = function() {
+            // Add event listener to the form submit button
+            var form = document.getElementById("login-form");
+            form.addEventListener("submit", handleFormSubmit);
+        };
+    </script>
+</head>
+
+<body>
+    <form class="my-form" method="POST" action="/submit" id="login-form">
+        <div class="login-welcome-row">
+            <a href="#" title="Logo">
+                 <img src="../static/assets/logo3.png" alt="Logo" class="logo">
+            </a>
+            <h1>Dive in To The Event</h1>
+        </div>
+
+        <div class="text-field">
+            <!-- <label for="team-name">Team Name <span class="required">*</span></label> -->
+            <input
+                type="text" id="team-name" name="team-name"
+                autocomplete="off" placeholder="Enter your Team Name *"
+                required>
+        </div>
+
+        <div class="text-field">
+            <!-- <label for="team-member1">Team Member 1 <span class="required">*</span></label> -->
+            <input
+                id="team-member1" type="text"
+                name="team-member1" placeholder="Enter Team Member 1 Name *"
+                pattern="[A-Za-z\s.]{1,20}" title="Only alphabets, spaces, and periods (max 20 characters)" required
+            >
+            <div class="error-message">Only alphabets, spaces, and periods (max 20 characters)</div>
+        </div>
+
+        <div class="text-field">
+            <!-- <label for="team-member2">Team Member 2 <span class="required">*</span></label> -->
+            <input
+                id="team-member2" type="text"
+                name="team-member2" placeholder="Enter Team Member 2 Name *"
+                pattern="[A-Za-z\s.]{1,20}" title="Only alphabets, spaces, and periods (max 20 characters)" required
+            >
+            <div class="error-message">Only alphabets, spaces, and periods (max 20 characters)</div>
+        </div>
+
+        <div class="text-field">
+            <!-- <label for="team-member3">Team Member 3</label> -->
+            <input
+                id="team-member3" type="text"
+                name="team-member3" placeholder="Enter Team Member 3 Name"
+                pattern="[A-Za-z\s.]{1,20}" title="Only alphabets, spaces, and periods (max 20 characters)"
+            >
+            <div class="error-message">Only alphabets, spaces, and periods (max 20 characters)</div>
+        </div>
+
+        <button type="submit" class="my-form__button">
+            Login
+        </button>
+    </form>
+
+    <script src="../static/script.js"></script>
+</body>
+
+</html>
